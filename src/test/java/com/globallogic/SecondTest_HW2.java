@@ -58,7 +58,7 @@ public class SecondTest_HW2 {
         driverFF = new FirefoxDriver();
 
         driverFF.get("http://google.com");
-        driverFF.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
+        driverFF.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
         driverFF.findElement(By.name("q")).sendKeys("selenium" + Keys.ENTER);
         try {
             isElementFound = driverFF.findElement(By.tagName("h3")).getText().contains("Selenium");
