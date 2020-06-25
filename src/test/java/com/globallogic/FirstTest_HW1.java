@@ -5,12 +5,8 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
 
 public class FirstTest_HW1 {
 
@@ -21,9 +17,6 @@ public class FirstTest_HW1 {
     void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-
-        //WebDriverManager.firefoxdriver().setup();
-        //driver = new FirefoxDriver();
     }
 
     @AfterEach
