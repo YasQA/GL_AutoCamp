@@ -780,7 +780,7 @@ public class AdminConsolePage extends Page {
 
     //-------------------------- vQmods -------------------------------------
 
-    public AdminConsolePage clickVQmodsuItem() {
+    public AdminConsolePage clickVQmodsItem() {
         if (driver.findElements(By.xpath("//*[@class='app']")).size() >= 1) {
             executor.executeScript("arguments[0].click();", vQmodsMI);
             wait.until((WebDriver wd) -> wd.findElement(By.xpath("//*[@id='top-bar']//a[text()='vQmods']")));

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -411,7 +410,7 @@ public class AdminMenuTests extends TestBase {
 
     @Test
     void menuTest59_vQmodsMI() {
-        app.clickVQmodsuItem();
+        app.clickVQmodsItem();
         assertTrue(app.isTitleCorrect("vQmods"));
     }
 

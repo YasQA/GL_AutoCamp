@@ -9,7 +9,7 @@ import java.util.List;
 public class CountriesAdminPage extends Page {
     public CountriesAdminPage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
-        PageFactory.initElements(driver, this);
+        //PageFactory.initElements(driver, this);
     }
 
     public List<WebElement> countriesList;

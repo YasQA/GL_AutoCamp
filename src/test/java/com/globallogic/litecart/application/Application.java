@@ -2,7 +2,9 @@ package com.globallogic.litecart.application;
 
 import com.globallogic.litecart.listeners.Listener;
 import com.globallogic.litecart.pages.AdminConsolePage;
+import com.globallogic.litecart.pages.CheckoutPage;
 import com.globallogic.litecart.pages.CountriesAdminPage;
+import com.globallogic.litecart.pages.MainPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -21,6 +23,8 @@ public class Application {
 
     private AdminConsolePage adminPage;
     private CountriesAdminPage countriesPage;
+    private MainPage mainPage;
+    private CheckoutPage checkoutPage;
 
     public Application() {
         WebDriverManager.chromedriver().setup();
@@ -37,7 +41,9 @@ public class Application {
         wait = new WebDriverWait(driver, 5);
 
         adminPage = new AdminConsolePage(driver, BaseUrl);
+        mainPage = new MainPage(driver, BaseUrl);
         countriesPage = new CountriesAdminPage(driver, BaseUrl);
+        checkoutPage = new CheckoutPage(driver, BaseUrl);
     }
 
     public void quit() {
@@ -54,6 +60,14 @@ public class Application {
 
     public void logoutAdminConsole() {
         adminPage.performLogout();
+    }
+
+    public void openMainPage() {
+        mainPage.open();
+    }
+
+    public void openCheckoutPage() {
+        checkoutPage.open();
     }
 
     public boolean isTitleCorrect(String title) {
@@ -319,8 +333,8 @@ public class Application {
 
     //-------------------------- vQmods -------------------------------------
 
-    public void clickVQmodsuItem() {
-        adminPage.clickVQmodsuItem();
+    public void clickVQmodsItem() {
+        adminPage.clickVQmodsItem();
     }
 
     //=======================================================================
@@ -340,4 +354,29 @@ public class Application {
     }
 
     //-----------------------------------------------------------------------
+
+
+    // ------------------ Main Page operations ------------------------------
+
+    public void logotypeClick() {
+        mainPage.logotypeClick();
+    }
+
+    public void selectItemFromPopProducts(int number) {
+        mainPage.selectItemFromPopProducts(number);
+    }
+
+    public void addItemToCart() {
+        mainPage.addItemToCart();
+    }
+
+    public int getNumberOfItemsOnCart() {
+        return mainPage.getNumberOfItemsOnCart();
+    }
+
+    // ------------------ Checkout Page Operations ------------------------------
+
+    public void removeItemsFromCart() {
+        checkoutPage.removeItemsFromCart();
+    }
 }
