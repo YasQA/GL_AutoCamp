@@ -1,15 +1,16 @@
 package com.globallogic.litecart.application;
+
 import com.globallogic.litecart.listeners.Listener;
 import com.globallogic.litecart.pages.AdminConsolePage;
+import com.globallogic.litecart.pages.CountriesAdminPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Application {
 
@@ -19,6 +20,7 @@ public class Application {
     public String BaseUrl = "http://3.122.51.38/litecart";
 
     private AdminConsolePage adminPage;
+    private CountriesAdminPage countriesPage;
 
     public Application() {
         WebDriverManager.chromedriver().setup();
@@ -35,6 +37,7 @@ public class Application {
         wait = new WebDriverWait(driver, 5);
 
         adminPage = new AdminConsolePage(driver, BaseUrl);
+        countriesPage = new CountriesAdminPage(driver, BaseUrl);
     }
 
     public void quit() {
@@ -322,5 +325,19 @@ public class Application {
 
     //=======================================================================
 
+    // --------------- Countries Admin Page operations ----------------------
 
+    public void openCountryForEditByPositionInList(int position) {
+        countriesPage.openCountryForEditByPositionInList(position);
+    }
+
+    public List<WebElement> getExternalLinksOnEditCountriesPage() {
+        return countriesPage.getExternalLinks();
+    }
+
+    public void openExternalLinkByLinkNumber(int number) {
+        countriesPage.openExternalLinkByLinkNumber(number);
+    }
+
+    //-----------------------------------------------------------------------
 }

@@ -7,6 +7,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.List;
+
 public class AdminConsolePage extends Page {
     public AdminConsolePage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
