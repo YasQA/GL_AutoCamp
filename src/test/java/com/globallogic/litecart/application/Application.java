@@ -1,15 +1,20 @@
 package com.globallogic.litecart.application;
+import com.globallogic.litecart.listeners.Listener;
 import com.globallogic.litecart.pages.AdminConsolePage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.io.IOException;
 
 public class Application {
 
-    public WebDriver driver;
+    public EventFiringWebDriver driver;
+
     public WebDriverWait wait;
     public String BaseUrl = "http://3.122.51.38/litecart";
 
@@ -19,10 +24,16 @@ public class Application {
         WebDriverManager.chromedriver().setup();
         //WebDriverManager.firefoxdriver().setup();
         //WebDriverManager.edgedriver().setup();
+        //driver = new ChromeDriver();
 
-        driver = new ChromeDriver();
+        driver = new EventFiringWebDriver(new ChromeDriver());
+        try {
+            driver.register(new Listener());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        wait = new WebDriverWait(driver, 5);
 
-        //wait = new WebDriverWait(driver, 5);
         adminPage = new AdminConsolePage(driver, BaseUrl);
     }
 

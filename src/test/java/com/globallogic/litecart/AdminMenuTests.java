@@ -1,13 +1,25 @@
 package com.globallogic.litecart;
+import com.globallogic.litecart.listeners.Listener;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AdminMenuTests extends TestBase {
-
+//    static EventFiringWebDriver edr;   ////////////
+//    static WebDriverWait wait;  //////////
+//    edr = new EventFiringWebDriver(new ChromeDriver());
+//    edr.register(new Listener());
+//    wait = new WebDriverWait(edr, 5);
+//
     @BeforeAll
     static void setUp() {
+
+
         app.openAdminConsolePanel();
         app.loginAdminConsole();
     }
@@ -15,6 +27,7 @@ public class AdminMenuTests extends TestBase {
     @AfterAll
     static void tearDown() {
         app.logoutAdminConsole();
+//        edr.quit(); ////////////////
     }
 
     //--------------------------- Appearance ------------------------------
