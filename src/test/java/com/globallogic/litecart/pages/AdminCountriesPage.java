@@ -3,11 +3,11 @@ package com.globallogic.litecart.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
+
 import java.util.List;
 
-public class CountriesAdminPage extends Page {
-    public CountriesAdminPage(WebDriver driver, String baseUrl) {
+public class AdminCountriesPage extends Page {
+    public AdminCountriesPage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
         //PageFactory.initElements(driver, this);
     }
@@ -20,7 +20,7 @@ public class CountriesAdminPage extends Page {
         return countriesList;
     }
 
-    public CountriesAdminPage openCountryForEditByPositionInList(int position) {
+    public AdminCountriesPage openCountryForEditByPositionInList(int position) {
         getCountriesLinks().get(position).click();
         wait.until((WebDriver wd) -> wd.findElement(By.xpath("//*[@id='top-bar']//li[text()='Edit Country']")));
         return this;
@@ -31,7 +31,7 @@ public class CountriesAdminPage extends Page {
         return externalLinksListOnEditPage;
     }
 
-    public CountriesAdminPage openExternalLinkByLinkNumber(int number) {
+    public AdminCountriesPage openExternalLinkByLinkNumber(int number) {
         String parentHandle = driver.getWindowHandle();
         getExternalLinks().get(number).click();
         return this;

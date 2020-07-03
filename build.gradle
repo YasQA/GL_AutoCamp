@@ -5,6 +5,7 @@ plugins {
 repositories {
     jcenter()
     //mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -15,6 +16,10 @@ dependencies {
     testImplementation ("io.github.bonigarcia:webdrivermanager:4.0.0")
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.6.0'
 }
 
 test {

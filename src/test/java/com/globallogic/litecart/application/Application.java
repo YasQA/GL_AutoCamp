@@ -1,10 +1,8 @@
 package com.globallogic.litecart.application;
 
+import com.globallogic.litecart.data.Product;
 import com.globallogic.litecart.listeners.Listener;
-import com.globallogic.litecart.pages.AdminConsolePage;
-import com.globallogic.litecart.pages.CheckoutPage;
-import com.globallogic.litecart.pages.CountriesAdminPage;
-import com.globallogic.litecart.pages.MainPage;
+import com.globallogic.litecart.pages.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -22,7 +20,8 @@ public class Application {
     public String BaseUrl = "http://3.122.51.38/litecart";
 
     private AdminConsolePage adminPage;
-    private CountriesAdminPage countriesPage;
+    private AdminCountriesPage countriesPage;
+    private AdminAddNewProductPage addNewProductPage;
     private MainPage mainPage;
     private CheckoutPage checkoutPage;
 
@@ -42,8 +41,9 @@ public class Application {
 
         adminPage = new AdminConsolePage(driver, BaseUrl);
         mainPage = new MainPage(driver, BaseUrl);
-        countriesPage = new CountriesAdminPage(driver, BaseUrl);
+        countriesPage = new AdminCountriesPage(driver, BaseUrl);
         checkoutPage = new CheckoutPage(driver, BaseUrl);
+        addNewProductPage = new AdminAddNewProductPage(driver, BaseUrl);
     }
 
     public void quit() {
@@ -56,6 +56,12 @@ public class Application {
 
     public void loginAdminConsole() {
         adminPage.performLogin();
+    }
+
+    public void addNewProduct(Product product) {
+        adminPage.clickCatalogSubMenuItem();
+        adminPage.clickAddProductButton();
+        addNewProductPage.addNewProduct(product);
     }
 
     public void logoutAdminConsole() {
@@ -96,6 +102,9 @@ public class Application {
     public void clickCatalogSubMenuItem() {
         adminPage.clickCatalogSubMenuItem();
     }
+    public void clickAddProductButton() {
+        adminPage.clickAddProductButton();
+    }
     public void clickAttributeGroupsMenuItem() {
         adminPage.clickAttributeGroupsMenuItem();
     }
@@ -118,6 +127,13 @@ public class Application {
         adminPage.clickCatalogCSVMenuItem();
     }
 
+    public List<String> getCreatedProductsNames() {
+        return addNewProductPage.getCreatedProductNames();
+    }
+
+    public boolean isAllNewProductAvailable() {
+        return addNewProductPage.isAllNewProductsAvailable(getCreatedProductsNames());
+    }
     //------------------------- Countries -----------------------------------
 
     public void clickCountriesMenuItem() {
