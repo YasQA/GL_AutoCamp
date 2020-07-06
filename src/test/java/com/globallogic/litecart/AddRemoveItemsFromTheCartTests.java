@@ -19,15 +19,15 @@ public class AddRemoveItemsFromTheCartTests extends TestBase {
     @Test
     void AddRemoveItemsTest1() {
         app.openMainPage();
-        app.selectItemFromPopProducts(0);
+        app.selectItemFromLatestProducts(0);
         app.addItemToCart();
 
         app.logotypeClick();
-        app.selectItemFromPopProducts(1);
+        app.selectItemFromLatestProducts(1);
         app.addItemToCart();
 
         app.logotypeClick();
-        app.selectItemFromPopProducts(2);
+        app.selectItemFromLatestProducts(2);
         app.addItemToCart();
 
         app.openCheckoutPage();

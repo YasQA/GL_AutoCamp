@@ -20,16 +20,17 @@ public class MainPage extends Page {
         return this;
     }
 
-    @FindBy(xpath = "//a[@class='logotype']")
+    //@FindBy(xpath = "//a[@class='logotype']")
+    @FindBy(className = "logotype")
     WebElement logotype;
 
-    @FindBy(xpath="//*[@id='box-popular-products']//a[@class='link']")
-    List<WebElement> popularProductsList;
+    @FindBy(xpath="//*[@id='box-latest-products']//a[@class='link']")
+    List<WebElement> latestProductsList;
 
     @FindBy(id = "cart")
     WebElement checkout;
 
-    @FindBy(xpath = "//*[@class='badge quantity']")
+    @FindBy(xpath = "//div[@class='badge quantity']")
     WebElement itemsOnCart;
 
     public MainPage logotypeClick() {
@@ -37,18 +38,18 @@ public class MainPage extends Page {
         return this;
     }
 
-    public MainPage selectItemFromPopProducts(int number) {
-        if (popularProductsList.size() >= 1) {
-            popularProductsList.get(number).click();
-            wait.until((WebDriver wd) -> wd.findElement(By.xpath("//*[@class='btn btn-success']")));
+    public MainPage selectItemFromLatestProducts(int number) {
+        if (latestProductsList.size() >= 1) {
+            latestProductsList.get(number).click();
+            wait.until((WebDriver wd) -> wd.findElement(By.name("add_cart_product")));
         }
         return this;
     }
 
     public MainPage addItemToCart() {
-        if (driver.findElements(By.xpath("//*[@class='form-control' and @name='quantity']")).size() == 1) {
+        if (driver.findElements(By.name("quantity")).size() == 1) {
             int onCart = getNumberOfItemsOnCart();
-            driver.findElement(By.xpath("//*[@class='btn btn-success']")).click();
+            driver.findElement(By.name("add_cart_product")).click();
             wait.until(ExpectedConditions.attributeToBe(By.xpath("//div[@class='badge quantity']"), "textContent", String.valueOf(onCart+1)));
         }
         return this;

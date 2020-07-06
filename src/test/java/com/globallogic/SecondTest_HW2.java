@@ -136,6 +136,7 @@ public class SecondTest_HW2 {
     }
 
     @Test
+    //For this test Selenium Server(Grid) should be UP on port 4444
     void test6_SeleniumServerGrid_IE11() throws MalformedURLException {
 
         driverSeleniumServer = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), DesiredCapabilities.chrome());

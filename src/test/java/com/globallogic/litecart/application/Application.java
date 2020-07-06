@@ -65,6 +65,7 @@ public class Application {
     }
 
     public void deleteProducts(List<String> productNames) {
+        adminPage.clickCatalogSubMenuItem();
         productPage.deleteProducts(productNames);
     }
 
@@ -386,8 +387,8 @@ public class Application {
         mainPage.logotypeClick();
     }
 
-    public void selectItemFromPopProducts(int number) {
-        mainPage.selectItemFromPopProducts(number);
+    public void selectItemFromLatestProducts(int number) {
+        mainPage.selectItemFromLatestProducts(number);
     }
 
     public void addItemToCart() {
