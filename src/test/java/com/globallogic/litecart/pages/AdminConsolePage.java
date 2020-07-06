@@ -7,8 +7,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.List;
-
 public class AdminConsolePage extends Page {
     public AdminConsolePage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
@@ -30,6 +28,9 @@ public class AdminConsolePage extends Page {
 
     @FindBy(xpath="//*[@id='box-apps-menu']/li/a[contains(@href,'catalog')]")
     WebElement catalogMI;
+
+    @FindBy (xpath="//a[contains(@href,'edit_product')]")
+    WebElement addProductButton;
 
     @FindBy(xpath="//*[@id='box-apps-menu']//ul//a[contains(@href,'doc=catalog')]")
     WebElement catalogSubMI;
@@ -275,6 +276,14 @@ public class AdminConsolePage extends Page {
             clickCatalogMenuItem();
             catalogSubMI.click();
             wait.until((WebDriver wd) -> wd.findElement(By.xpath("//*[@id='top-bar']//li[text()='Catalog']")));
+        }
+        return this;
+    }
+
+    public AdminConsolePage clickAddProductButton() {
+        if (driver.findElements(By.xpath("//*[@id='top-bar']//li[text()='Catalog']")).size() > 0)  {
+            addProductButton.click();
+            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[@class='panel-heading']"), "Add New Product"));
         }
         return this;
     }
@@ -780,7 +789,7 @@ public class AdminConsolePage extends Page {
 
     //-------------------------- vQmods -------------------------------------
 
-    public AdminConsolePage clickVQmodsuItem() {
+    public AdminConsolePage clickVQmodsItem() {
         if (driver.findElements(By.xpath("//*[@class='app']")).size() >= 1) {
             executor.executeScript("arguments[0].click();", vQmodsMI);
             wait.until((WebDriver wd) -> wd.findElement(By.xpath("//*[@id='top-bar']//a[text()='vQmods']")));

@@ -22,7 +22,7 @@ public class NewWindowsTests extends TestBase {
     }
 
     @Test
-    void newWindowTest1_xxx() {
+    void newWindowTest1_OpenCloseNewTabs() {
         app.clickCountriesMenuItem();
         app.openCountryForEditByPositionInList(0);
 

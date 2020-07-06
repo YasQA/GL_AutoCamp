@@ -1,8 +1,8 @@
 package com.globallogic.litecart.application;
 
+import com.globallogic.litecart.data.Product;
 import com.globallogic.litecart.listeners.Listener;
-import com.globallogic.litecart.pages.AdminConsolePage;
-import com.globallogic.litecart.pages.CountriesAdminPage;
+import com.globallogic.litecart.pages.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -20,7 +20,10 @@ public class Application {
     public String BaseUrl = "http://3.122.51.38/litecart";
 
     private AdminConsolePage adminPage;
-    private CountriesAdminPage countriesPage;
+    private AdminCountriesPage countriesPage;
+    private AdminProductPage productPage;
+    private MainPage mainPage;
+    private CheckoutPage checkoutPage;
 
     public Application() {
         WebDriverManager.chromedriver().setup();
@@ -37,7 +40,10 @@ public class Application {
         wait = new WebDriverWait(driver, 5);
 
         adminPage = new AdminConsolePage(driver, BaseUrl);
-        countriesPage = new CountriesAdminPage(driver, BaseUrl);
+        mainPage = new MainPage(driver, BaseUrl);
+        countriesPage = new AdminCountriesPage(driver, BaseUrl);
+        checkoutPage = new CheckoutPage(driver, BaseUrl);
+        productPage = new AdminProductPage(driver, BaseUrl);
     }
 
     public void quit() {
@@ -52,8 +58,26 @@ public class Application {
         adminPage.performLogin();
     }
 
+    public void addNewProduct(Product product) {
+        adminPage.clickCatalogSubMenuItem();
+        adminPage.clickAddProductButton();
+        productPage.addNewProduct(product);
+    }
+
+    public void deleteProducts(List<String> productNames) {
+        productPage.deleteProducts(productNames);
+    }
+
     public void logoutAdminConsole() {
         adminPage.performLogout();
+    }
+
+    public void openMainPage() {
+        mainPage.open();
+    }
+
+    public void openCheckoutPage() {
+        checkoutPage.open();
     }
 
     public boolean isTitleCorrect(String title) {
@@ -82,6 +106,9 @@ public class Application {
     public void clickCatalogSubMenuItem() {
         adminPage.clickCatalogSubMenuItem();
     }
+    public void clickAddProductButton() {
+        adminPage.clickAddProductButton();
+    }
     public void clickAttributeGroupsMenuItem() {
         adminPage.clickAttributeGroupsMenuItem();
     }
@@ -104,6 +131,17 @@ public class Application {
         adminPage.clickCatalogCSVMenuItem();
     }
 
+    public List<String> getCreatedProductNames() {
+        return productPage.getCreatedProductNames();
+    }
+
+    public boolean isAllNewProductAvailable() {
+        return productPage.isAllNewProductsAvailable(getCreatedProductNames());
+    }
+
+    public boolean  isAllProductsDeleted(List<String> listOfProductNames) {
+        return productPage.isAllProductsDeleted(getCreatedProductNames());
+    }
     //------------------------- Countries -----------------------------------
 
     public void clickCountriesMenuItem() {
@@ -319,8 +357,8 @@ public class Application {
 
     //-------------------------- vQmods -------------------------------------
 
-    public void clickVQmodsuItem() {
-        adminPage.clickVQmodsuItem();
+    public void clickVQmodsItem() {
+        adminPage.clickVQmodsItem();
     }
 
     //=======================================================================
@@ -340,4 +378,29 @@ public class Application {
     }
 
     //-----------------------------------------------------------------------
+
+
+    // ------------------ Main Page operations ------------------------------
+
+    public void logotypeClick() {
+        mainPage.logotypeClick();
+    }
+
+    public void selectItemFromPopProducts(int number) {
+        mainPage.selectItemFromPopProducts(number);
+    }
+
+    public void addItemToCart() {
+        mainPage.addItemToCart();
+    }
+
+    public int getNumberOfItemsOnCart() {
+        return mainPage.getNumberOfItemsOnCart();
+    }
+
+    // ------------------ Checkout Page Operations ------------------------------
+
+    public void removeItemsFromCart() {
+        checkoutPage.removeItemsFromCart();
+    }
 }
