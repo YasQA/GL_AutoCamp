@@ -21,7 +21,7 @@ public class Application {
 
     private AdminConsolePage adminPage;
     private AdminCountriesPage countriesPage;
-    private AdminAddNewProductPage addNewProductPage;
+    private AdminProductPage productPage;
     private MainPage mainPage;
     private CheckoutPage checkoutPage;
 
@@ -43,7 +43,7 @@ public class Application {
         mainPage = new MainPage(driver, BaseUrl);
         countriesPage = new AdminCountriesPage(driver, BaseUrl);
         checkoutPage = new CheckoutPage(driver, BaseUrl);
-        addNewProductPage = new AdminAddNewProductPage(driver, BaseUrl);
+        productPage = new AdminProductPage(driver, BaseUrl);
     }
 
     public void quit() {
@@ -61,7 +61,11 @@ public class Application {
     public void addNewProduct(Product product) {
         adminPage.clickCatalogSubMenuItem();
         adminPage.clickAddProductButton();
-        addNewProductPage.addNewProduct(product);
+        productPage.addNewProduct(product);
+    }
+
+    public void deleteProducts(List<String> productNames) {
+        productPage.deleteProducts(productNames);
     }
 
     public void logoutAdminConsole() {
@@ -127,12 +131,16 @@ public class Application {
         adminPage.clickCatalogCSVMenuItem();
     }
 
-    public List<String> getCreatedProductsNames() {
-        return addNewProductPage.getCreatedProductNames();
+    public List<String> getCreatedProductNames() {
+        return productPage.getCreatedProductNames();
     }
 
     public boolean isAllNewProductAvailable() {
-        return addNewProductPage.isAllNewProductsAvailable(getCreatedProductsNames());
+        return productPage.isAllNewProductsAvailable(getCreatedProductNames());
+    }
+
+    public boolean  isAllProductsDeleted(List<String> listOfProductNames) {
+        return productPage.isAllProductsDeleted(getCreatedProductNames());
     }
     //------------------------- Countries -----------------------------------
 

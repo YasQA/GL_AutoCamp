@@ -61,7 +61,7 @@ public class TestBase {
                         .withDateValidTo("09-Aug-2021")
                         .withManufacturer("ACME Corp.")
                         .withSupplier("")
-                        .withCode("2" + String.valueOf(System.currentTimeMillis()))
+                        .withCode("2" + System.currentTimeMillis())
                         .withSKU("SKU 2 " + System.currentTimeMillis())
                         .withMPN("MPN1 2 " + System.currentTimeMillis())
                         .withGTIN("GTIN1 2 " + System.currentTimeMillis())

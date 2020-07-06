@@ -1,20 +1,20 @@
 package com.globallogic.litecart.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import com.globallogic.litecart.data.Product;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminAddNewProductPage extends Page {
-    public AdminAddNewProductPage(WebDriver driver, String baseUrl) {
+import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
+
+public class AdminProductPage extends Page {
+    public AdminProductPage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
         PageFactory.initElements(driver, this);
     }
@@ -155,7 +155,6 @@ public class AdminAddNewProductPage extends Page {
         priceGrossEURInput.clear();
         priceGrossEURInput.sendKeys(String.valueOf(product.getPriceEURinclTax()));
         saveNewProductChanges();
-
         createdProductNames.add(product.getProductName());
     }
 
@@ -213,16 +212,36 @@ public class AdminAddNewProductPage extends Page {
     }
 
     public boolean isAllNewProductsAvailable(List<String> productNames) {
-        List<WebElement> listOfProducts = driver.findElements(By.xpath("//form[@name='catalog_form']//a"));
-        int i = 0; // number of added new products located in products list
-        for(String product : productNames) {
-            for (WebElement element : listOfProducts) {
-                System.out.println(element.getText());
-                if (element.getText().equals(product)) {
-                    i++;
-                }
+        for (String product : productNames) {
+            List<WebElement> products = driver.findElements(By.linkText(product));
+            if (products.size() == 0) {
+                return false;
             }
         }
-        return (i == productNames.size());
+        return true;
     }
+
+    public AdminProductPage deleteProducts(List<String> productNames) {
+        for (String productName : productNames) {
+            List<WebElement> products = driver.findElements(By.linkText(productName));
+            products.get(0).click();
+            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[@class='panel-heading']"), "Edit Product: " + productName));
+            driver.findElement(By.name("delete")).click();
+            Alert alert = wait.until(alertIsPresent());
+            alert.accept();
+            wait.until((WebDriver wd) -> wd.findElement(By.xpath("//div[text()=' Changes saved']")));
+        }
+        return this;
+    }
+
+    public boolean isAllProductsDeleted(List<String> productNames) {
+        for (String product : productNames) {
+            List<WebElement> products = driver.findElements(By.linkText(product));
+            if (products.size() > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
