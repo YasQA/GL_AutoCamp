@@ -7,6 +7,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.List;
+
 public class AdminConsolePage extends Page {
     public AdminConsolePage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
@@ -822,5 +824,98 @@ public class AdminConsolePage extends Page {
     public boolean isTitleCorrect(String title) {
         return wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[@class='panel-heading']"), title));
     }
+
+    public boolean isAllTitlesExists() {
+        List<WebElement> mainMenuItems = wait.until((WebDriver dw) -> dw.findElements(By.xpath("//*[@id='box-apps-menu']/li/a")));
+        int size = mainMenuItems.size();
+        boolean allHeadersExists = true;
+        String headerTextBefore = getTitleText();;
+        String headerTextAfter;
+
+        for (int i = 0; i < size; i++) {
+            try {
+                mainMenuItems = wait.until((WebDriver dw) -> dw.findElements(By.xpath("//*[@id='box-apps-menu']/li/a")));
+                executor.executeScript("arguments[0].click();", mainMenuItems.get(i));
+                // ensure header changed
+                do {
+                    headerTextAfter = getTitleText();
+                } while (headerTextBefore.equals(headerTextAfter));
+                headerTextBefore = headerTextAfter;
+
+                if (!isHeaderExists()) {
+                    allHeadersExists = false;
+                    break; //if one of main menu page have no Header
+                }
+                // work with submenu items
+                allHeadersExists = isSubMenuPagesHeadersExists();
+            }
+            catch (Exception StaleElementReferenceException) {
+                mainMenuItems = wait.until((WebDriver dw) -> dw.findElements(By.xpath("//*[@id='box-apps-menu']/li/a")));
+                mainMenuItems.get(i).click();
+                // ensure header changed
+                do {
+                    headerTextAfter = getTitleText();
+                } while (headerTextBefore.equals(headerTextAfter));
+                headerTextBefore = headerTextAfter;
+
+                if (!isHeaderExists()) {
+                    allHeadersExists = false;
+                    break; //if one of main menu page have no Header
+                }
+                // work with submenu items
+                allHeadersExists = isSubMenuPagesHeadersExists();
+            }
+        }
+        return allHeadersExists;
+    }
+
+    public boolean isSubMenuPagesHeadersExists() {
+        boolean allHeadersExists = true;
+        List<WebElement> subMenuItems = wait.until((WebDriver wd) -> wd.findElements(By.xpath("//li[@class='app selected']/ul/li/a")));
+        int subMenuSize = subMenuItems.size();
+        if (subMenuSize > 0) {
+            for (int i = 0; i < subMenuSize; i++) {
+                try {
+                   subMenuItems.get(i).click();
+                    if (!isHeaderExists()) {
+                        allHeadersExists = false;
+                        break; //if one of submenu page have no Header
+                    }
+                }
+                catch (Exception StaleElementReferenceException) {
+                    subMenuItems = wait.until((WebDriver wd) -> wd.findElements(By.xpath("//li[@class='app selected']/ul/li/a")));
+                    subMenuItems.get(i).click();
+                    if (!isHeaderExists()) {
+                        allHeadersExists = false;
+                        break; //if one of submenu page have no Header
+                    }
+                }
+            }
+        }
+        return allHeadersExists;
+    }
+
+    public boolean isHeaderExists() {
+        try {
+            WebElement header = wait.until((WebDriver wd) -> wd.findElement(By.xpath("//div[@class='panel-heading']")));
+            return true;
+        }
+        catch (Exception ex) {
+            System.out.println("Header not found");
+            return false;
+        }
+    }
+
+    public String getTitleText() {
+        try {
+            WebElement header = driver.findElement(By.xpath("//div[@class='panel-heading']"));
+            return header.getText();
+        }
+        catch (Exception ex) {
+            return "NoTitle";
+        }
+    }
+
+
 }
 

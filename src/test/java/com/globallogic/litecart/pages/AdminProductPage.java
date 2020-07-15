@@ -19,11 +19,6 @@ public class AdminProductPage extends Page {
         PageFactory.initElements(driver, this);
     }
 
-    List<String> createdProductNames = new ArrayList<>();
-
-    @FindBy(xpath="//button[@name='save']")
-    WebElement saveButton;
-
     // ---------------------- generalTab ----------------------------------
 
     @FindBy(xpath="//a[text()='General']")
@@ -138,7 +133,7 @@ public class AdminProductPage extends Page {
         generalTARICInput.sendKeys(product.getTARIC());
         selectManufacturer(product.getManufacturer());
         generalKeywordsInput.sendKeys(product.getKeywords());
-        attachFile();
+        attachFile(product.getFileName());
         informationTab.click();
         informationShortDescriptionInput.sendKeys(product.getShortDescription());
         informationDescriptionInput.sendKeys(product.getDescription());
@@ -155,7 +150,6 @@ public class AdminProductPage extends Page {
         priceGrossEURInput.clear();
         priceGrossEURInput.sendKeys(String.valueOf(product.getPriceEURinclTax()));
         saveNewProductChanges();
-        createdProductNames.add(product.getProductName());
     }
 
     private void enableStatusLabel(boolean toEnable) {
@@ -181,10 +175,10 @@ public class AdminProductPage extends Page {
 
     private void enterDate(WebElement calendarWebElement, String date) {
         String day = date.substring(0, 2);
-        String month = date.substring(3, 6);
-        String year = date.substring(7, 11);
+        String month = date.substring(3, 5);
+        String year = date.substring(6, 10);
         calendarWebElement.click();
-        calendarWebElement.sendKeys(day + month + Keys.TAB + year + Keys.TAB);
+        calendarWebElement.sendKeys(day + month + Keys.ARROW_RIGHT + year + Keys.TAB);
     }
 
     private void selectManufacturer(String manufacturer) {
@@ -196,52 +190,32 @@ public class AdminProductPage extends Page {
     }
 
     private void saveNewProductChanges() {
+        WebElement saveButton = wait.until((WebDriver wd) -> wd.findElement(By.xpath("//button[@name='save']")));
+        System.out.println(saveButton.toString());
         saveButton.click();
         wait.until((WebDriver wd) -> wd.findElement(By.xpath("//div[text()=' Changes saved']")));
     }
 
-    public void attachFile() {
+    public void attachFile(String fileName) {
         WebElement input = driver.findElement(By.xpath("//input[@type='file']"));
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("NewSuperDuck.png").getFile());
+        File file = new File(classLoader.getResource(fileName).getFile());
         input.sendKeys(file.getAbsolutePath());
     }
 
-    public List<String> getCreatedProductNames() {
-        return createdProductNames;
+    public boolean isNewProductAvailable(String productName) {
+        List<WebElement> products = driver.findElements(By.linkText(productName));
+        return products.size() == 0 ? false : true;
     }
 
-    public boolean isAllNewProductsAvailable(List<String> productNames) {
-        for (String product : productNames) {
-            List<WebElement> products = driver.findElements(By.linkText(product));
-            if (products.size() == 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public AdminProductPage deleteProducts(List<String> productNames) {
-        for (String productName : productNames) {
-            List<WebElement> products = driver.findElements(By.linkText(productName));
-            products.get(0).click();
-            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[@class='panel-heading']"), "Edit Product: " + productName));
-            driver.findElement(By.name("delete")).click();
-            Alert alert = wait.until(alertIsPresent());
-            alert.accept();
-            wait.until((WebDriver wd) -> wd.findElement(By.xpath("//div[text()=' Changes saved']")));
-        }
+    public AdminProductPage deleteProduct(String productName) {
+        List<WebElement> products = driver.findElements(By.linkText(productName));
+        products.get(0).click();
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[@class='panel-heading']"), "Edit Product: " + productName));
+        driver.findElement(By.name("delete")).click();
+        Alert alert = wait.until(alertIsPresent());
+        alert.accept();
+        wait.until((WebDriver wd) -> wd.findElement(By.xpath("//div[text()=' Changes saved']")));
         return this;
     }
-
-    public boolean isAllProductsDeleted(List<String> productNames) {
-        for (String product : productNames) {
-            List<WebElement> products = driver.findElements(By.linkText(product));
-            if (products.size() > 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
 }

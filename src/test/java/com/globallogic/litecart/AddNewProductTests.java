@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AddNewProductTests extends TestBase {
+    String addedProductName;
 
     @BeforeAll
     static void setUp() {
@@ -18,7 +19,6 @@ public class AddNewProductTests extends TestBase {
 
     @AfterAll
     static void tearDown() {
-        app.deleteProducts(app.getCreatedProductNames());
         app.logoutAdminConsole();
     }
 
@@ -26,6 +26,10 @@ public class AddNewProductTests extends TestBase {
     @MethodSource("productProvider")
     public void addNewProductTest1(Product product) {
         app.addNewProduct(product);
-        assertTrue(app.isAllNewProductAvailable());
+        addedProductName = product.getProductName();
+
+        assertTrue(app.isNewProductAvailable(addedProductName));
+
+        app.deleteProduct(addedProductName);
     }
 }

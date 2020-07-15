@@ -6,6 +6,8 @@ import com.globallogic.litecart.pages.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -29,9 +31,10 @@ public class Application {
         WebDriverManager.chromedriver().setup();
         //WebDriverManager.firefoxdriver().setup();
         //WebDriverManager.edgedriver().setup();
-        //driver = new ChromeDriver();
 
         driver = new EventFiringWebDriver(new ChromeDriver());
+        //driver = new EventFiringWebDriver(new FirefoxDriver());
+        //driver = new EventFiringWebDriver(new EdgeDriver());
         try {
             driver.register(new Listener());
         } catch (IOException e) {
@@ -64,9 +67,9 @@ public class Application {
         productPage.addNewProduct(product);
     }
 
-    public void deleteProducts(List<String> productNames) {
+    public void deleteProduct(String productName) {
         adminPage.clickCatalogSubMenuItem();
-        productPage.deleteProducts(productNames);
+        productPage.deleteProduct(productName);
     }
 
     public void logoutAdminConsole() {
@@ -75,6 +78,10 @@ public class Application {
 
     public void openMainPage() {
         mainPage.open();
+    }
+
+    public boolean isAllTitlesExists() {
+        return adminPage.isAllTitlesExists();
     }
 
     public void openCheckoutPage() {
@@ -86,21 +93,17 @@ public class Application {
     }
 
     //------------------------- Appearance -----------------------------------
-
     public void clickAppearanceMenuItem() {
         adminPage.clickAppearanceMenuItem();
     }
-
     public void clickTemplateMenuItem() {
         adminPage.clickTemplateMenuItem();
     }
-
     public void clickLogotypeMenuItem() {
         adminPage.clickLogotypeMenuItem();
     }
 
     //------------------------- Catalog --------------------------------------
-
     public void clickCatalogMenuItem() {
         adminPage.clickCatalogMenuItem();
     }
@@ -132,31 +135,21 @@ public class Application {
         adminPage.clickCatalogCSVMenuItem();
     }
 
-    public List<String> getCreatedProductNames() {
-        return productPage.getCreatedProductNames();
+    public boolean isNewProductAvailable(String productName) {
+        return productPage.isNewProductAvailable(productName);
     }
 
-    public boolean isAllNewProductAvailable() {
-        return productPage.isAllNewProductsAvailable(getCreatedProductNames());
-    }
-
-    public boolean  isAllProductsDeleted(List<String> listOfProductNames) {
-        return productPage.isAllProductsDeleted(getCreatedProductNames());
-    }
     //------------------------- Countries -----------------------------------
-
     public void clickCountriesMenuItem() {
         adminPage.clickCountriesMenuItem();
     }
 
     //------------------------- Currencies -----------------------------------
-
     public void clickCurrenciesMenuItem() {
         adminPage.clickCurrenciesMenuItem();
     }
 
     //------------------------- Customers ------------------------------------
-
     public void clickCustomersMenuItem() {
         adminPage.clickCustomersMenuItem();
     }
@@ -171,201 +164,157 @@ public class Application {
     }
 
     //-------------------------- Geo Zones -----------------------------------
-
     public void clickGeoZonesMenuItem() {
         adminPage.clickGeoZonesMenuItem();
     }
 
     //------------------------- Languages -----------------------------------
-
     public void clickLanguagesMenuItem() {
         adminPage.clickLanguagesMenuItem();
     }
-
     public void clickLanguagesSubMenuItem() {
         adminPage.clickLanguagesSubMenuItem();
     }
-
     public void clickStorageEncodingMenuItem() {
         adminPage.clickStorageEncodingMenuItem();
     }
 
     //------------------------- Modules -------------------------------------
-
     public void clickModulesMenuItem() {
         adminPage.clickModulesMenuItem();
     }
-
     public void clickCustomerModulesMenuItem() {
         adminPage.clickCustomerModulesMenuItem();
     }
-
     public void clickShippingModulesMenuItem() {
         adminPage.clickShippingModulesMenuItem();
     }
-
     public void clickPaymentModulesMenuItem() {
         adminPage.clickPaymentModulesMenuItem();
     }
-
     public void clickOrderModulesMenuItem() {
         adminPage.clickOrderModulesMenuItem();
     }
-
     public void clickOrderTotalModulesMenuItem() {
         adminPage.clickOrderTotalModulesMenuItem();
     }
-
     public void clickJobModulesMenuItem() {
         adminPage.clickJobModulesMenuItem();
     }
 
     //-------------------------- Orders -------------------------------------
-
     public void clickOrdersMenuItem() {
         adminPage.clickOrdersMenuItem();
     }
-
     public void clickOrdersSubMenuItem() {
         adminPage.clickOrdersSubMenuItem();
     }
-
     public void clickOrderStatusesMenuItem() {
         adminPage.clickOrderStatusesMenuItem();
     }
 
     //-------------------------- Pages --------------------------------------
-
     public void clickPagesMenuItem() {
         adminPage.clickPagesMenuItem();
     }
-
     public void clickPagesSubMenuItem() {
         adminPage.clickPagesSubMenuItem();
     }
-
     public void clickPagesCsvMenuItem() {
         adminPage.clickPagesCsvMenuItem();
     }
 
     //-------------------------- Reports ------------------------------------
-
     public void clickReportsMenuItem() {
         adminPage.clickReportsMenuItem();
     }
-
     public void clickMonthlySalesMenuItem() {
         adminPage.clickMonthlySalesMenuItem();
     }
-
     public void clickMostSoldProductsMenuItem() {
         adminPage.clickMostSoldProductsMenuItem();
     }
-
     public void clickMostShoppingCustomersMenuItem() {
         adminPage.clickMostShoppingCustomersMenuItem();
     }
 
     //-------------------------- Settings -----------------------------------
-
     public void clickSettingsMenuItem() {
         adminPage.clickSettingsMenuItem();
     }
-
     public void clickStoreInfoMenuItem() {
         adminPage.clickStoreInfoMenuItem();
     }
-
     public void clickDefaultsMenuItem() {
         adminPage.clickDefaultsMenuItem();
     }
-
     public void clickEmailMenuItem() {
         adminPage.clickEmailMenuItem();
     }
-
     public void clickListingsMenuItem() {
         adminPage.clickListingsMenuItem();
     }
-
     public void clickCustomerDetailsMenuItem() {
         adminPage.clickCustomerDetailsMenuItem();
     }
-
     public void clickLegalMenuItem() {
         adminPage.clickLegalMenuItem();
     }
-
     public void clickImagesMenuItem() {
         adminPage.clickImagesMenuItem();
     }
-
     public void clickCheckoutMenuItem() {
         adminPage.clickCheckoutMenuItem();
     }
-
     public void clickAdvancedMenuItem() {
         adminPage.clickAdvancedMenuItem();
     }
-
     public void clickSecurityMenuItem() {
         adminPage.clickSecurityMenuItem();
     }
 
     //-------------------------- Sliders ------------------------------------
-
     public void clickSlidesMenuItem() {
         adminPage.clickSlidesMenuItem();
     }
 
     //-------------------------- Tax ----------------------------------------
-
     public void clickTaxMenuItem() {
         adminPage.clickTaxMenuItem();
     }
-
     public void clickTaxRatesMenuItem() {
         adminPage.clickTaxRatesMenuItem();
     }
-
     public void clickTaxClassesMenuItem() {
         adminPage.clickTaxClassesMenuItem();
     }
 
     //-------------------------- Translations -------------------------------
-
     public void clickTranslationsMenuItem() {
         adminPage.clickTranslationsMenuItem();
     }
-
     public void clickSearchTranslationsMenuItem() {
         adminPage.clickSearchTranslationsMenuItem();
     }
-
     public void clickScanFilesMenuItem() {
         adminPage.clickScanFilesMenuItem();
     }
-
     public void clickTranslationsCsvMenuItem() {
         adminPage.clickTranslationsCsvMenuItem();
     }
 
     //-------------------------- Users --------------------------------------
-
     public void clickUsersMenuItem() {
         adminPage.clickUsersMenuItem();
     }
 
     //-------------------------- vQmods -------------------------------------
-
     public void clickVQmodsItem() {
         adminPage.clickVQmodsItem();
     }
-
     //=======================================================================
 
     // --------------- Countries Admin Page operations ----------------------
-
     public void openCountryForEditByPositionInList(int position) {
         countriesPage.openCountryForEditByPositionInList(position);
     }
@@ -378,12 +327,8 @@ public class Application {
         countriesPage.openExternalLinkByLinkNumber(number);
     }
 
-    //-----------------------------------------------------------------------
-
-
     // ------------------ Main Page operations ------------------------------
-
-    public void logotypeClick() {
+    public void gotoMainPage() {
         mainPage.logotypeClick();
     }
 
@@ -400,7 +345,6 @@ public class Application {
     }
 
     // ------------------ Checkout Page Operations ------------------------------
-
     public void removeItemsFromCart() {
         checkoutPage.removeItemsFromCart();
     }

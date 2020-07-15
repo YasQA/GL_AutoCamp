@@ -5,10 +5,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import com.globallogic.litecart.helpers.NewWindows;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class NewWindowsTests extends TestBase {
-    String parentHandle = app.driver.getWindowHandle();
+    String originalWindow;
+    String newWindow;
+    Set<String> existWindows;
 
     @BeforeAll
     static void setUp() {
@@ -23,18 +27,23 @@ public class NewWindowsTests extends TestBase {
 
     @Test
     void newWindowTest1_OpenCloseNewTabs() {
+        originalWindow = NewWindows.getCurrentWindow(app.driver);
+        existWindows = NewWindows.getOpenedWindows(app.driver);
+
         app.clickCountriesMenuItem();
         app.openCountryForEditByPositionInList(0);
 
         for (int i = 0; i < app.getExternalLinksOnEditCountriesPage().size(); i++) {
             app.openExternalLinkByLinkNumber(i);
-            assertTrue(app.driver.getWindowHandles().size() > 1); // New Handlers(Windows) appears
+            newWindow = app.wait.until(NewWindows.anyWindowOtherThan(app.driver, existWindows));
 
-            NewWindows.switchToNewWindow(app.driver);
-            NewWindows.closeWindowAndSwitchBackToMain(app.driver, parentHandle);
+            assertNotEquals(null, newWindow); // New Window appears
 
-            assertTrue(app.driver.getWindowHandles().size() == 1); //only one Handler left
-            assertTrue(app.driver.getWindowHandle().equals(parentHandle)); //current Handler is initial Handler
+            NewWindows.switchToNewWindow(app.driver, newWindow);
+            NewWindows.closeWindowAndSwitchBackToMain(app.driver, originalWindow);
+
+            assertEquals(1, app.driver.getWindowHandles().size()); //only one Handler left
+            assertTrue(app.driver.getWindowHandle().equals(originalWindow)); //current Handler is initial Handler
         }
     }
 }

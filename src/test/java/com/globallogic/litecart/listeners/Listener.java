@@ -5,15 +5,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
 import java.io.*;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 
 public class Listener extends AbstractWebDriverEventListener {
 
-    String logPath = Paths.get("").toAbsolutePath().toString() + "\\src\\test\\java\\com\\globallogic\\litecart\\logs\\" + System.currentTimeMillis() + ".log";
-    File file = new File(logPath);
+    File file = new File("testsExecution.log");
 
     public Listener() throws IOException {
     }

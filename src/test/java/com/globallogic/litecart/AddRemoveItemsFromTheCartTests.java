@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AddRemoveItemsFromTheCartTests extends TestBase {
@@ -18,22 +19,16 @@ public class AddRemoveItemsFromTheCartTests extends TestBase {
 
     @Test
     void AddRemoveItemsTest1() {
-        app.openMainPage();
-        app.selectItemFromLatestProducts(0);
-        app.addItemToCart();
-
-        app.logotypeClick();
-        app.selectItemFromLatestProducts(1);
-        app.addItemToCart();
-
-        app.logotypeClick();
-        app.selectItemFromLatestProducts(2);
-        app.addItemToCart();
+        for (int i = 0; i < 3; i++) {
+            app.gotoMainPage();
+            app.selectItemFromLatestProducts(i);
+            app.addItemToCart();
+        }
 
         app.openCheckoutPage();
         app.removeItemsFromCart();
 
-        app.logotypeClick();
-        assertTrue(app.getNumberOfItemsOnCart() == 0);
+        app.gotoMainPage();
+        assertEquals(0, app.getNumberOfItemsOnCart());
     }
 }

@@ -16,6 +16,7 @@ public class Product {
     private String gtin;
     private String taric;
     private String keywords;
+    private String fileName;
 
     private String shortDescription;
     private String description;
@@ -61,6 +62,10 @@ public class Product {
 
     public String getKeywords() {
         return keywords;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     public boolean getEnabled() {
@@ -223,6 +228,11 @@ public class Product {
 
         public Builder withKeywords(String keywords) {
             Product.this.keywords = keywords;
+            return this;
+        }
+
+        public Builder withFile(String fileName) {
+            Product.this.fileName = fileName;
             return this;
         }
 
